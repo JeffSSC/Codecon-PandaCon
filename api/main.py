@@ -5,18 +5,25 @@ from PIL import Image
 from io import BytesIO
 from IPython.display import Image as IPImage, display
 from config import OPENAI_API_KEY
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/api', methods=['POST'])
+def panda_image():
+    return "<p>Hello, World!</p>"
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", OPENAI_API_KEY))
 
 # Create imgs/ folder
-folder_path = "imgs"
+folder_path = "img"
 os.makedirs(folder_path, exist_ok=True)
 
 prompt_edit = "Coloque uma cabeça de panda igual ao da codecon nessa pessoa."
-img_path_edit = "./teste.jpg"
+img_path_edit = "img/resultado.jpg"
 
 img1 = open("./fabiano.jpg", "rb")
-img2 = open("./teste_panda.png", "rb")
+img2 = open("img/panda.png", "rb")
 
 # Generate the new image
 result_edit = client.images.edit(
