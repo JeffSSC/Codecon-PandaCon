@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./api
+    container_name: api
+    ports:
+      - "5000:5000"
+    networks:
+      - minha-rede
+
+  frontend:
+    build: ./front-end
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - minha-rede
+
+networks:
+  minha-rede:
+    driver: bridge
