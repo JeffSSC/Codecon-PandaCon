@@ -8,6 +8,9 @@
 
 ## 📌 Visão Geral
 
+**Apresentação do Projeto:**
+https://www.canva.com/design/DAGnuR0mPzw/-t7Gz8eKMNrhdLGGsJLp2g/edit?utm_content=DAGnuR0mPzw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 A ferramenta segue um fluxo simples:
 
 1. O usuário envia uma imagem contendo um rosto humano.
