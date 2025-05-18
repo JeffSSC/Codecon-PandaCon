@@ -1,6 +1,6 @@
-# 🐼 PandaSwap Codecon
+# 🐼 Beaustify
 
-**PandaSwap Codecon** é uma aplicação web que permite aos usuários transformar seu rosto na icônica cabeça de panda da Codecon. Utilizando a API da OpenAI, a aplicação realiza uma substituição inteligente da cabeça da pessoa por uma cabeça de panda com base em uma imagem de referência.
+**Beaustify** é uma aplicação web que permite aos usuários transformar seu rosto na cabeça de qualquer fera aleatoriamente. Utilizando a API da OpenAI, a aplicação realiza uma substituição inteligente da cabeça da pessoa por uma cabeça de algum animal aleatoriamente.
 
 ---
 
@@ -11,9 +11,8 @@ A ferramenta segue um fluxo simples:
 1. O usuário envia uma imagem contendo um rosto humano.
 2. A aplicação faz uma requisição para a API da OpenAI, enviando:
    - A imagem do usuário.
-   - Uma imagem de referência com a cabeça de panda da Codecon.
-   - Um prompt descrevendo a substituição desejada.
-3. A imagem retornada mostra o rosto substituído pela cabeça do panda, mantendo o corpo e o contexto originais.
+   - Um prompt descrevendo a substituição da cabeça.
+3. A imagem retornada mostra o rosto substituído pela cabeça de algum animal, mantendo o corpo e o contexto originais.
 
 ---
 
@@ -23,15 +22,22 @@ A ferramenta segue um fluxo simples:
   - Interface para o usuário inserir uma foto (PNG ou JPG).
   - Validação de tipo e tamanho da imagem.
 
+---
+
+## ⚙️ Desfuncionalidades
+
+- A opção de escolher o animal desejado é simplesmente inútil, na verdade esse projeto inteiro é inútil, independente do animal escolhido ele te retornará sua foto com a cabeça de algum animal aleatório.
+
+---
+
 - **🌐 Integração com OpenAI:**
   - Requisição feita à API da OpenAI (com suporte à edição de imagem).
   - Envio dos seguintes dados:
     - Imagem do usuário.
-    - Imagem de referência salva localmente (com a cabeça do panda).
     - Prompt descritivo.
 
   *Exemplo de prompt utilizado:*
-  > Substitua o rosto da pessoa na imagem enviada pelo usuário pela cabeça do panda presente na imagem de referência, mantendo o corpo e o contexto originais.
+  > Substitua o rosto da pessoa na imagem enviada pelo usuário pela cabeça de algum animal aleatório, mantendo o corpo e o contexto originais.
 
 - **🎨 Processamento e Exibição:**
   - A imagem gerada é exibida na interface do usuário após o retorno da API.
