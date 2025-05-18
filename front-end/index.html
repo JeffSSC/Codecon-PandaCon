@@ -5,51 +5,89 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Formulário de Transformação</title>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+		<style>
+			#preview-container {
+				position: relative;
+			}
+			#preview-container img {
+				opacity: 0.8;
+			}
+			#preview-container .overlay {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: white;
+				font-size: 1.5rem;
+				background-color: rgba(0, 0, 0, 0.5);
+				padding: 0.5rem 1rem;
+				border-radius: 0.5rem;
+			}
+		</style>
 	</head>
 	<body class="bg-light d-flex vh-100 flex-column justify-content-center align-items-center">
-			<div class="d-flex p-3 shadow rounded col-8">
-				<div class="card-body col-6">
-					<h3 class="card-title mb-4 text-start">Transformador de Arquivos</h3>
-					<form>
-						<div class="mb-3">
-							<label for="arquivo" class="form-label">Envie seu arquivo</label>
-							<input class="form-control" type="file" accept="image/png, image/jpeg" id="arquivo" required />
-						</div>
-						<div class="mb-3">
-							<label for="animal" class="form-label">Escolha um animal</label>
-							<select class="form-select" id="animal" required>
-								<option selected disabled>Selecione um animal</option>
-								<option>🐱 - Gato</option>
-								<option>🐶 - Cachorro</option>
-								<option>🦁 - Leão</option>
-								<option>🐒 - Macaco</option>
-								<option>🐧 - Pinguim</option>
-								<option>🐅 - Tigre</option>
-								<option>🐸 - Sapo</option>
-							</select>
-						</div>
-						<button type="button" class="btn btn-primary w-100">Transformar</button>
-					</form>
-				</div>
-				<div id="resultado" class="col-6 d-flex flex-column justify-content-center align-items-center">
-				</div>
+		<div class="d-flex p-3 shadow rounded col-8">
+			<div class="card-body col-6">
+				<h3 class="card-title mb-4 text-start">Transformador de Arquivos</h3>
+				<form>
+					<div class="mb-3">
+						<label for="arquivo" class="form-label">Envie seu arquivo</label>
+						<input class="form-control" type="file" accept="image/png, image/jpeg" id="arquivo" required />
+					</div>
+					<div class="mb-3">
+						<label for="animal" class="form-label">Escolha um animal</label>
+						<select class="form-select" id="animal" required>
+							<option selected disabled>Selecione um animal</option>
+							<option>🐱 - Gato</option>
+							<option>🐶 - Cachorro</option>
+							<option>🦁 - Leão</option>
+							<option>🐒 - Macaco</option>
+							<option>🐧 - Pinguim</option>
+							<option>🐅 - Tigre</option>
+							<option>🐸 - Sapo</option>
+						</select>
+					</div>
+					<button type="button" class="btn btn-primary w-100" id="transformar-btn">Transformar</button>
+				</form>
 			</div>
+			<div id="resultado" class="col-6 d-flex flex-column justify-content-center align-items-center">
+				<!-- Visualizações aparecerão aqui -->
+			</div>
+		</div>
 
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
-				const form = document.querySelector("button");
+				const transformBtn = document.getElementById("transformar-btn");
 				const fileInput = document.getElementById("arquivo");
 
-				form.addEventListener("click", async (event) => {
-					event.preventDefault(); // Impede o envio padrão do formulário
+				fileInput.addEventListener("change", () => {
+					const file = fileInput.files[0];
+					if (file) {
+						const previewUrl = URL.createObjectURL(file);
+						document.getElementById("resultado").innerHTML = `
+							<div id="preview-container" class="d-flex align-items-center justify-content-center col-4">
+								<img src="${previewUrl}" alt="Pré-visualização" class="img-fluid mt-3 rounded" />
+								<div class="overlay">Carregando...</div>
+							</div>
+						`;
+					}
+				});
+
+				transformBtn.addEventListener("click", async (event) => {
+					event.preventDefault();
 
 					const file = fileInput.files[0];
 					if (!file) {
 						alert("Por favor, selecione um arquivo.");
 						return;
 					}
+
+					// Desativa botão
+					transformBtn.disabled = true;
+					transformBtn.classList.remove("btn-primary");
+					transformBtn.classList.add("btn-secondary");
+					transformBtn.textContent = "Processando...";
 
 					const formData = new FormData();
 					formData.append("file", file);
@@ -66,15 +104,19 @@
 
 						const result = await response.json();
 						console.log("Resposta do servidor:", result);
-						// Aqui você pode adicionar lógica para lidar com a resposta,
-						// como exibir uma mensagem de sucesso ou redirecionar o usuário.
-						// Atualiza o conteúdo da div com a imagem retornada
-						document.getElementById(
-							"resultado"
-						).innerHTML = `<img src="http://localhost:5000/${result.caminho}" alt="Imagem transformada" class="img-fluid mt-3" />`;
+
+						document.getElementById("resultado").innerHTML = `
+							<img src="http://localhost:5000/${result.caminho}" alt="Imagem transformada" class="img-fluid mt-3 rounded" />
+						`;
 					} catch (error) {
 						console.error("Erro ao enviar o arquivo:", error);
 						alert("Ocorreu um erro ao enviar o arquivo.");
+					} finally {
+						// Reativa botão
+						transformBtn.disabled = false;
+						transformBtn.classList.remove("btn-secondary");
+						transformBtn.classList.add("btn-primary");
+						transformBtn.textContent = "Transformar";
 					}
 				});
 			});
