@@ -4,7 +4,7 @@ from openai import OpenAI
 from PIL import Image
 from io import BytesIO
 from config import OPENAI_API_KEY
-from flask import Flask, request, jsonify, send_file, url_for
+from flask import Flask, request, jsonify, url_for
 import os
 from datetime import datetime
 
@@ -45,18 +45,17 @@ def upload_image():
 
         client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", OPENAI_API_KEY))
 
-        prompt_edit = "Replace only the heads of the most prominent people in the image with the Codecon mascot head. The mascot head must exactly match the size, angle, and direction of the original human head. Keep the original body, posture, lighting, clothing, background, and all other elements unchanged. Do not stretch, deform, duplicate or invent any new people. Only replace, do not add."
+        prompt_edit = "Troque a cabeça da pessoa na imagem por uma cabeça de um animal aleatório."
         os.makedirs("static", exist_ok=True)
         name = datetime.now().strftime("%Y%m%d%H%M%S")
         img_path_edit = f"static/{name}.jpg"
 
         img1 = open("./img/pessoa.png", "rb")
-        img2 = open("./img/panda.png", "rb")
 
         # Generate the new image
         result_edit = client.images.edit(
             model="gpt-image-1",
-            image=[img1,img2], 
+            image=[img1], 
             prompt=prompt_edit,
             size="1024x1536"
         )
