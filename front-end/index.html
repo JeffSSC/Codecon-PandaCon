@@ -23,11 +23,36 @@
 				padding: 0.5rem 1rem;
 				border-radius: 0.5rem;
 			}
+			.bg-2 {
+				background-color: #343a40;
+			}
+
+			.animal-emoji {
+				position: absolute;
+				font-size: 2rem;
+				opacity: 0.9;
+				animation: float 3s ease-in-out infinite;
+			}
+
+			@keyframes float {
+				0% {
+					transform: translateY(0) scale(1);
+				}
+				50% {
+					transform: translateY(-10px) scale(1.2);
+				}
+				100% {
+					transform: translateY(0) scale(1);
+				}
+			}
 		</style>
 	</head>
-	<body class="bg-light d-flex vh-100 flex-column justify-content-center align-items-center">
-		<div class="d-flex p-3 shadow rounded col-8">
-			<div class="card-body col-6">
+	<body
+		class="bg-2 d-flex flex-column align-items-center justify-content-center min-vh-100 p-5 overflow-auto"
+		data-bs-theme="dark"
+	>
+		<div class="bg-body d-flex p-3 shadow rounded col-6 gap-3">
+			<div class="card-body">
 				<h3 class="card-title mb-4 text-start">Transformador de Arquivos</h3>
 				<form>
 					<div class="mb-3">
@@ -49,9 +74,9 @@
 					</div>
 					<button type="button" class="btn btn-primary w-100" id="transformar-btn">Transformar</button>
 				</form>
-			</div>
-			<div id="resultado" class="col-6 d-flex flex-column justify-content-center align-items-center">
-				<!-- Visualizações aparecerão aqui -->
+				<div id="resultado" class="rounded d-flex flex-column justify-content-center align-items-center">
+					<!-- Visualizações aparecerão aqui -->
+				</div>
 			</div>
 		</div>
 
@@ -66,9 +91,21 @@
 					if (file) {
 						const previewUrl = URL.createObjectURL(file);
 						document.getElementById("resultado").innerHTML = `
-							<div id="preview-container" class="d-flex align-items-center justify-content-center col-4">
-								<img src="${previewUrl}" alt="Pré-visualização" class="img-fluid mt-3 rounded" />
-								<div class="overlay">Carregando...</div>
+							<div id="preview-container" class="position-relative mt-3 col-4">
+								<img src="${previewUrl}" alt="Pré-visualização" class="img-fluid rounded" />
+								<div class="position-absolute p-3 bg-body rounded-5 top-50 start-50 translate-middle">
+									<div class="spinner-border text-body" role="status">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+								</div>
+
+								<!-- Emojis animados ao redor -->
+								<span class="animal-emoji" style="top: -10px; left: 10px;">🐱</span>
+								<span class="animal-emoji" style="top: -10px; right: 10px;">🐶</span>
+								<span class="animal-emoji" style="bottom: -10px; left: 10px;">🦁</span>
+								<span class="animal-emoji" style="bottom: -10px; right: 10px;">🐸</span>
+								<span class="animal-emoji" style="top: 50%; left: -20px;">🐧</span>
+								<span class="animal-emoji" style="top: 50%; right: -20px;">🐒</span>
 							</div>
 						`;
 					}
@@ -106,7 +143,7 @@
 						console.log("Resposta do servidor:", result);
 
 						document.getElementById("resultado").innerHTML = `
-							<img src="http://localhost:5000/${result.caminho}" alt="Imagem transformada" class="img-fluid mt-3 rounded" />
+							<img src="http://3.86.13.223:5000/${result.caminho}" alt="Imagem transformada" class="img-fluid mt-3 rounded" />
 						`;
 					} catch (error) {
 						console.error("Erro ao enviar o arquivo:", error);
