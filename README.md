@@ -2,7 +2,7 @@
 
 **Beaustify** é uma aplicação web que permite aos usuários transformar seu rosto na cabeça de qualquer fera aleatoriamente. Utilizando a API da OpenAI, a aplicação realiza uma substituição inteligente da cabeça da pessoa por uma cabeça de algum animal aleatoriamente.
 
-**Acesse nosso projeto**:http://3.86.13.223/ "Lembre-se de acessar utilizando o http:// não o https://"
+**Acesse nosso projeto**:  http://3.86.13.223/   "Lembre-se de acessar utilizando o http:// não o https://"
 
 ---
 
